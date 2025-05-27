@@ -20,10 +20,9 @@ url <- paste("https://www.england.nhs.uk/fft/friends-and-family-test-data/")
 webpage <- read_html(url)
 
 #Using CSS selectors to scrape the publications section
-web_data_html <- html_nodes(webpage,'a')
-
-#Find the latest publication 
-web_data <- xml_attrs(web_data_html[[32]]) %>% 
+web_data <- html_nodes(webpage,'a')|> 
+  html_attr("href") |> 
+  str_subset("publication/friends-and-family-test-data")%>% 
   data.frame() %>% 
   head(1) %>% 
   pull()
